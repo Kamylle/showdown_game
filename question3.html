@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>Question 3</title>
+
+        <style>
+            body, #app {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id='app'></div>
+
+        <script>
+        
+            var isWinning = false;
+            var startingTime = Math.ceil(Math.random() * 3) * 1000;
+
+            var body = document.querySelector('body');
+            var app = document.querySelector('#app');
+            var button = document.createElement('button');
+
+            button.innerText = "Click Me!!!";
+            button.style.position = "absolute";
+            button.style.top = randomPos() + "%";
+            button.style.right = randomPos() + "%";
+
+            function randomPos() {
+                return Math.ceil(Math.random() * 90 + 5);
+            }
+
+            function youWin() {
+                isWinning = true;
+                endGame();
+            }
+
+            function startGame() {
+                app.appendChild(button);
+                button.addEventListener('click', youWin, true);
+                body.addEventListener('click', () => app.innerText = "You Lose :( :( :(", true);
+                setTimeout(endGame, 1500);
+            }
+
+            function endGame() {
+                if (isWinning) {app.innerText = "You Win!!!"}
+                else {app.innerText = "You Lose :( :( :("}
+            }
+
+            setTimeout(startGame, startingTime);
+        
+        </script>
+    </body>
+</html>
+
+<!-- Same as the previous question, except that now a button appears at a random position on the screen when the round starts. The user must click the button in 1.5 seconds. If he clicks anywhere else, he automatically loses. -->

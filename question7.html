@@ -1,0 +1,147 @@
+<html>
+    <head>
+        <title>Question 7</title>
+
+        <style>
+            body, #app {
+                width: 90%;
+                height: 90%;
+                margin: 0;
+            }
+
+            #app {
+                top: 0;
+                left: 0;
+            }
+
+            #startBtn {
+                margin: 20px;
+            }
+            h1 {
+                margin: 0 20px;
+            }
+
+            .hidden {
+                display: none;
+            }
+        
+        </style>
+    </head>
+    <body>
+
+        <button id="startBtn">Start Game</button>
+        <h1 id="message"></h1>
+
+        <div id="app">
+
+        </div>
+
+        <script>
+
+            var isWinning = false;
+            var randomStart = Math.ceil(Math.random() * 3) * 1000;
+
+            var btnsClicked = 0;
+            var numBtn;
+
+            var body     = document.querySelector("body");
+            var app      = document.querySelector("#app");
+            var startBtn = document.querySelector("#startBtn");
+            var message  = document.querySelector("#message");
+            var gameTimeout;
+            var strtTimeout;
+
+            function randomPos() {
+                return Math.ceil(Math.random() * 80 + 10);
+            }
+
+            function randomNumBtn() {
+                return Math.ceil(Math.random() * 10);
+            }
+            
+            function spawnBtns () {
+                for (var i = 0; i <= numBtn -1; i++) {addButton();}
+            }
+
+            function setTimeAllowed () {
+                return (numBtn + 1) * 600;
+            }
+
+            function addButton() {
+                var btn = document.createElement("button");
+                btn.innerText = "Click Me!";
+                btn.style.position = "absolute";
+                btn.style.top = randomPos() + "%";
+                btn.style.left = randomPos() + "%";
+                btn.addEventListener("click", e => {
+                    e.stopPropagation();
+                    btnsClicked ++;
+                    btn.style.display = "none";
+                    if (numBtn == btnsClicked) {youWin();}
+                }, true);
+                app.appendChild(btn);
+            }
+
+            function removeBtns() {
+                var btns = app.querySelectorAll("button");
+                while (app.firstChild) {
+                    app.removeChild(app.firstChild);
+                }
+            }
+
+            function showMessage() {
+                if (isWinning) {
+                    message.innerHTML = "You Win!!!"
+                }
+                else {
+                    message.innerHTML = "You Lose :("
+                }
+                message.classList.remove("hidden");
+            }
+
+            function waitForIt() {
+                strtTimeout = setTimeout(startGame, randomStart);
+                message.classList.add("hidden");
+                startBtn.classList.add("hidden");
+                numBtn = randomNumBtn();
+            }
+
+            function startGame() {
+                isWinning = false;
+                spawnBtns();
+                app.addEventListener("click", endGame);
+                gameTimeout = setTimeout(endGame, setTimeAllowed());
+            }
+            
+            function youWin() {
+                isWinning = true;
+                endGame();
+            }
+
+            function endGame() {
+                startBtn.classList.remove("hidden");
+                clearTimeout(gameTimeout);
+                clearTimeout(strtTimeout);
+                btnsClicked = 0;
+                removeBtns();
+                showMessage();
+            }
+
+            startBtn.addEventListener("click", waitForIt);
+        
+        </script>
+    </body>
+</html>
+
+
+<!-- The game starts only when the button is pressed. -->
+<!-- If he presses within the allotted time, there is a message telling him he has succeeded. Otherwise, there is a message telling him he has failed. -->
+<!-- The user must click the button in 1.5 seconds. If he clicks anywhere else, he automatically loses. -->
+<!-- Button to restart -->
+
+<!-- Same as the previous question, but now the user has to click on 5 buttons. The buttons all appear at the same time. The user will have 3 seconds to click on all of them. Each time a button is clicked, it disappears.
+
+Don't forget, if the user clicks something that is not a button, he immediately loses. -->
+
+<!-- Same as the previous question, but now the user has to click on a random number of buttons. The number of buttons will be between 1 and 10. If n is the number of buttons, then the user will have 1 + n * 0.4 seconds to click on all of them. Each time a button is clicked, it disappears. You must use createElement to make the buttons. -->
+

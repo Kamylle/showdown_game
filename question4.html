@@ -1,0 +1,77 @@
+<html>
+    <head>
+        <title>Question 4</title>
+
+        <style>
+            body, #app {
+                width: 100%;
+                height: 100%;
+            }
+
+            .hidden {
+                display: none;
+            }
+        
+        </style>
+    </head>
+    <body>
+
+        <button id="startBtn">Start Game</button>
+        <div id="app">
+            <button id="gameBtn" class="hidden">Click Me! Quick!</button>
+        </div>
+
+        <script>
+
+            var isWinning = false;
+            var randomStart = Math.ceil(Math.random() * 3) * 1000;
+
+            var body =     document.querySelector("body");
+            var app =      document.querySelector("#app");
+            var startBtn = document.querySelector("#startBtn");
+            var gameBtn =  document.querySelector("#gameBtn");
+
+            gameBtn.style.position = "absolute";
+            gameBtn.style.top  = randomPos() + "%";
+            gameBtn.style.left = randomPos() + "%";
+
+            function randomPos() {
+                return Math.ceil(Math.random() * 90 + 5);
+            }
+
+            function waitForIt() {
+                setTimeout(startGame, randomStart);
+                startBtn.classList.add("hidden");
+            }
+
+            function youWin() {
+                isWinning = true;
+                app.innerHTML = "You Win!!!";
+            }
+
+            function youLose() {
+                if (!isWinning) {
+                    app.innerHTML = "You Lose :(";
+                }
+            }
+
+            function startGame() {
+                gameBtn.classList.remove("hidden");
+                gameBtn.addEventListener("click", youWin, true);
+                app.addEventListener("click", youLose, true);
+                setTimeout(youLose, 1500);
+            }
+
+            startBtn.addEventListener("click", waitForIt, true);
+            
+
+        
+        
+        </script>
+    </body>
+</html>
+
+
+<!-- The game starts only when the button is pressed. -->
+<!-- If he presses within the allotted time, there is a message telling him he has succeeded. Otherwise, there is a message telling him he has failed. -->
+<!-- The user must click the button in 1.5 seconds. If he clicks anywhere else, he automatically loses. -->

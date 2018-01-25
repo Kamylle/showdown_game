@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <title>Question 1</title>
+    </head>
+    <body>
+        
+        <script>
+            var isWinning = false;
+            var body = document.querySelector('body');
+            body.innerHTML = "<div id='app'></div>";
+            var app = document.querySelector('#app');
+
+            function switchToWin() {
+                isWinning = true;
+                app.innerHTML = "You Win!!!";
+            }
+
+            body.addEventListener('click', switchToWin);
+
+            function checkWin() {
+                body.removeEventListener('click', switchToWin);
+                if (!isWinning)  {
+                    app.innerHTML = "You Lose :(";
+                }
+            }
+
+            setTimeout(checkWin, 1000);
+
+        </script>
+    </body>
+</html>
